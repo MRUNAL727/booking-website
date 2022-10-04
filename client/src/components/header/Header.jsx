@@ -36,7 +36,7 @@ const Header = () => {
         [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
       };
     });
-  } 
+  }  
 
 
   return (
