@@ -11,18 +11,19 @@
     width: 100%;
     object-fit: cover;
     filter: brightness(70%);
+    border-radius: 10px;
 }
 
 
 .featuredItem{
   position: relative;
   color: white;
-  border-radius: 10px;
  
-}
+ }
+
 .featuredTitles{
   position: absolute;
   bottom:20px;
   margin:10px;
-  color:#fff;
+  /* color:#fff; */
 }
