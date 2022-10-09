@@ -5,7 +5,6 @@ import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
-import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const app = express();
@@ -19,6 +18,10 @@ const connect = async () => {
     throw error;
   }
 };
+
+//middlewares
+app.use(cors())
+app.use(express.json());
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
