@@ -6,41 +6,35 @@ export const verifyToken = async (req, res, next) => {
 
   if (!token) {
     return next(createError(401, 'You are not authenticated'));
-  } 
-  else {
+  } else {
     jwt.verify(token, process.env.JWT_SECRETE, (err, user) => {
       if (err) {
         return next(createError(403, 'Invalid token'));
       } else {
         req.user = user;
-      console.log('one')
         next();
       }
     });
   }
 };
 
+
 export const verifyUser = (req, res, next) => {
-  console.log("hey");
   verifyToken(req, res, () => {
-      console.log('two')
-
     if (req.user.id === req.params.id || req.user.isAdmin) {
-      console.log('three')
-
       next();
     } else {
-      return next(createError(403, "You are not authorized!"));
+      return next(createError(403, 'You are not authorized!'));
     }
   });
 };
 
 export const verifyAdmin = (req, res, next) => {
-  verifyToken(req, res, next, () => {
+  verifyToken(req, res,  () => {
     if (req.user.isAdmin) {
       next();
     } else {
-      return next(createError(403, "You are not authorized!"));
+      return next(createError(403, 'You are not authorized!'));
     }
   });
 };
