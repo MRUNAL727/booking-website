@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import Navbar from '../../components/navbar/Navbar';
-import Header from '../../components/header/Header';
-import './list.css';
-import { useLocation } from 'react-router-dom';
-import { format } from 'date-fns'
-import { DateRange } from 'react-date-range'
-import SearchItem from '../../components/searchItem/SearchItem';
+import "./list.css";
+import Navbar from "../../components/navbar/Navbar";
+import Header from "../../components/header/Header";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { format } from "date-fns";
+import { DateRange } from "react-date-range";
+import SearchItem from "../../components/searchItem/SearchItem";
+import useFetch from "../../hooks/useFetch";
 
 const List = () => {
   const location = useLocation();
@@ -13,27 +14,36 @@ const List = () => {
   const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
+  const [min, setMin] = useState(undefined);
+  const [max, setMax] = useState(undefined);
 
-  const handleClick = () => {}
+  const { data, loading, error, reFetch } = useFetch(
+    `http://localhost:8000/api/hotels?city=${destination}&min=${min || 0 }&max=${max || 999}`
+  );
+
+  console.log(data)
+  const handleClick = () => {
+    reFetch();
+  };
+
   return (
     <div>
       <Navbar />
       <Header type="list" />
-
       <div className="listContainer">
         <div className="listWrapper">
           <div className="listSearch">
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
               <label>Destination</label>
-               <input type="text"  placeholder={destination}/>
+              <input placeholder={destination} type="text" />
             </div>
             <div className="lsItem">
-              <label>Check-in date</label>
+              <label>Check-in Date</label>
               <span onClick={() => setOpenDate(!openDate)}>{`${format(
                 dates[0].startDate,
-                'MM/dd/yyyy'
-              )} to ${format(dates[0].endDate, 'MM/dd/yyyy')}`}</span>
+                "MM/dd/yyyy"
+              )} to ${format(dates[0].endDate, "MM/dd/yyyy")}`}</span>
               {openDate && (
                 <DateRange
                   onChange={(item) => setDates([item.selection])}
@@ -51,7 +61,7 @@ const List = () => {
                   </span>
                   <input
                     type="number"
-                    // onChange={(e) => setMin(e.target.value)}
+                    onChange={(e) => setMin(e.target.value)}
                     className="lsOptionInput"
                   />
                 </div>
@@ -61,7 +71,7 @@ const List = () => {
                   </span>
                   <input
                     type="number"
-                    // onChange={(e) => setMax(e.target.value)}
+                    onChange={(e) => setMax(e.target.value)}
                     className="lsOptionInput"
                   />
                 </div>
@@ -96,23 +106,16 @@ const List = () => {
             </div>
             <button onClick={handleClick}>Search</button>
           </div>
-
-          {/* ------------------------Result----------------------------------- */}
           <div className="listResult">
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-
+            {loading ? (
+              "loading"
+            ) : (
+              <>
+                {data.map((item) => (
+                  <SearchItem item={item} key={item._id} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>
