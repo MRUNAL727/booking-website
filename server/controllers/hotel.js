@@ -96,3 +96,10 @@ export const countByType = async (req, res, next) => {
     next(err);
   }
 };
+
+
+//--------------- get hotel rooms -----------------------
+
+export const getHotelRooms = async (req, res, next) => {
+  
+}
