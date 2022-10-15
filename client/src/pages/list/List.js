@@ -23,9 +23,10 @@ const List = () => {
   );
 
 
-  console.log(destination)
   const handleClick = () => {
-    reFetch();
+
+      reFetch();
+    
   };
 
   return (
