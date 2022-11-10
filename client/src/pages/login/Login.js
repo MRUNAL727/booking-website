@@ -12,8 +12,6 @@ const Login = () => {
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
-  // console.log(error)
-
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -25,6 +23,7 @@ const Login = () => {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post("http://localhost:8000/api/auth/login", credentials);
+      console.log(res.data);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
       navigate("/")
     } catch (err) {
