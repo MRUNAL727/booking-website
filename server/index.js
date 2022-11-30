@@ -1,11 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import authRoute from "./routes/auth.js";
-import usersRoute from "./routes/users.js";
-import hotelsRoute from "./routes/hotels.js";
-import roomsRoute from "./routes/rooms.js";
-import cors from "cors";
+import authRoute from './routes/auth.js';
+import usersRoute from './routes/users.js';
+import hotelsRoute from './routes/hotels.js';
+import roomsRoute from './routes/rooms.js';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -21,9 +21,24 @@ const connect = async () => {
 };
 
 //middlewares
-app.use(cors())
-app.use(cookieParser())
+
+app.use(cors(
+  {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+));
+app.use(function (req, res, next) {
+  res.header('Content-Type', 'application/json;charset=UTF-8');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
