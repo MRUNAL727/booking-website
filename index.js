@@ -45,7 +45,15 @@ app.use('/api/users', usersRoute);
 app.use('/api/hotels', hotelsRoute);
 app.use('/api/rooms', roomsRoute);
 
-app.listen(process.env.PORT, () => {
+if(process.env.NODE_ENV= 'production'){
+  app.use(express.static(path.join( __dirname ,"/client/build")))
+
+   app.get("*", (req,response)=>{
+    response.sendFile(path.resolve(__dirname, 'client', "build", "index.html"))
+  })
+} 
+
+app.listen(process.env.PORT || 8000, () => {
   connect();
   console.log('Connected to backend.');
 });
