@@ -7,6 +7,7 @@ import hotelsRoute from './routes/hotels.js';
 import roomsRoute from './routes/rooms.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import path from 'path'
 
 const app = express();
 dotenv.config();
@@ -45,13 +46,14 @@ app.use('/api/users', usersRoute);
 app.use('/api/hotels', hotelsRoute);
 app.use('/api/rooms', roomsRoute);
 
-if(process.env.NODE_ENV= 'production'){
-  app.use(express.static(path.join( __dirname ,"/client/build")))
+if(process.env.NODE_ENV=='production'){
+    
 
-   app.get("*", (req,response)=>{
-    response.sendFile(path.resolve(__dirname, 'client', "build", "index.html"))
-  })
-} 
+    app.get('/',(req,res)=>{
+        app.use(express.static(path.resolve(__dirname,'client','build')))
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+    })
+}
 
 app.listen(process.env.PORT || 8000, () => {
   connect();
