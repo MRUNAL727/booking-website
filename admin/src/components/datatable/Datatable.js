@@ -12,7 +12,7 @@ const Datatable = ({ columns }) => {
   const [list, setList] = useState({});
   // let data;
   const { data, loading, error } = useFetch(
-    `http://localhost:8000/api/${path}`
+    `/api/${path}`
   );
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Datatable = ({ columns }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/${path}/${id}`);
+      await axios.delete(`/api/${path}/${id}`);
       setList(list.filter((item) => item._id !== id));
     } catch (err) {}
   };
