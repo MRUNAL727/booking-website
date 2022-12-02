@@ -53,7 +53,7 @@ app.use('/api/users', usersRoute);
 app.use('/api/hotels', hotelsRoute);
 app.use('/api/rooms', roomsRoute);
 
-// if (process.env.NODE_ENV === 'production') { 
+// if (process.env.NODE_ENV === 'production') {  
   app.use(express.static(path.join(__dirname, './client/build')));
      console.log(__dirname);
   app.get('*', function (_, res) {
